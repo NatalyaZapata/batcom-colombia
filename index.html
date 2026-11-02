@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="BatCom Colombia reúne datos de comunidades de murciélagos de Colombia para publicarlos como data paper en Ecology. Participa con tus datos.">
+<meta property="og:title" content="BatCom Colombia">
+<meta property="og:description" content="BatCom Colombia reúne datos de comunidades de murciélagos de Colombia para publicarlos como data paper en Ecology. Participa con tus datos.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>BatCom Colombia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a night hero with a mist net, then the page reads like a field protocol on cool paper. */
+:root {
+  --night: #12303a;
+  --night-2: #1b4450;
+  --on-night: #eef3ee;
+  --on-night-soft: #b9cdc9;
+  --net: 214, 228, 222;
+  --paper: #fbfaf3;
+  --paper-ink: #1d2c2f;
+  --paper-line: #c9d3ca;
+  --bg: #eef2ec;
+  --surface: #f9fbf6;
+  --fg: #1a2b30;
+  --soft: #4d6065;
+  --line: #c6d1ca;
+  --accent: #9a5a00;
+  --accent-fill: #e8a530;
+  --on-accent: #1c1a10;
+  --todo: #8b3a62;
+  --display: "Fira Sans Extra Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e2129; --surface: #15303a; --fg: #e8efea; --soft: #a9bdb9; --line: #2f4f58;
+    --accent: #eeb04a; --todo: #e39bc0; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e2129; --surface: #15303a; --fg: #e8efea; --soft: #a9bdb9; --line: #2f4f58;
+  --accent: #eeb04a; --todo: #e39bc0; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
+a { color: var(--accent); text-underline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--accent-fill); outline-offset: 2px; }
+
+.wrap { max-width: 1080px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Header */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--night); color: var(--on-night); }
+.bar .wrap { display: flex; align-items: center; gap: 20px; min-height: 56px; }
+.brand { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 23px; letter-spacing: .01em; white-space: nowrap; }
+.brand svg { width: 34px; height: auto; fill: var(--accent-fill); flex: none; }
+.links { display: flex; gap: 18px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.links a { color: var(--on-night-soft); text-decoration: none; font-family: var(--mono); font-size: 13px; white-space: nowrap; padding: 6px 0; }
+.links a:hover { color: var(--on-night); }
+.lang { flex: none; display: flex; border: 1px solid var(--on-night-soft); border-radius: 3px; overflow: hidden; }
+.lang button { appearance: none; background: none; border: 0; color: var(--on-night); font-family: var(--mono); font-size: 13px; padding: 5px 9px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--accent-fill); color: var(--on-accent); }
+
+/* Hero */
+.hero { position: relative; background: var(--night); color: var(--on-night); overflow: hidden; }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 64px 72px; }
+.eyebrow { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-fill); margin: 0 0 16px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 5.8vw, 68px); line-height: 1; margin: 0 0 22px; text-wrap: balance; }
+h1 span { display: block; margin-top: 10px; color: var(--accent-fill); }
+.lede { font-size: 20px; line-height: 1.5; max-width: 34em; margin: 0 0 28px; color: var(--on-night); }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-block; font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: .01em; padding: 9px 20px; border-radius: 3px; text-decoration: none; border: 2px solid var(--accent-fill); background: var(--accent-fill); color: var(--on-accent); cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--on-night); border-color: var(--on-night-soft); }
+
+.sheet { background: var(--paper); color: var(--paper-ink); padding: 18px 20px 14px; transform: rotate(1.4deg); box-shadow: 0 14px 34px rgba(0, 0, 0, .35); font-family: var(--mono); font-size: 13px; line-height: 1.45; }
+.sheet h2 { font: inherit; font-weight: 500; margin: 0 0 2px; }
+.sheet p { margin: 0 0 10px; }
+.sheet table { width: 100%; border-collapse: collapse; }
+.sheet th, .sheet td { text-align: left; padding: 5px 0; border-bottom: 1px solid var(--paper-line); font-weight: 400; }
+.sheet th:last-child, .sheet td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.sheet i { font-style: italic; }
+.sheet .note { margin: 10px 0 0; font-size: 12px; }
+
+/* Sections */
+section { padding-block: 64px; }
+section + section { border-top: 1px solid var(--line); }
+h2.t { font-family: var(--display); font-weight: 700; font-size: clamp(36px, 5vw, 52px); line-height: 1.05; margin: 0 0 18px; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 700; font-size: 25px; line-height: 1.15; margin: 0 0 8px; }
+.prose { max-width: 40em; }
+.prose p { margin: 0 0 16px; }
+.lab { font-family: var(--mono); font-size: 13px; letter-spacing: .03em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; margin-top: 32px; }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 32px; }
+.three p, .two p { margin: 0; }
+ul.plain { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+ul.plain li { padding-left: 22px; position: relative; min-width: 0; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 10px; transform: rotate(45deg); border: 1.5px solid var(--accent); }
+ul.plain b { font-weight: 600; }
+
+.scroll { overflow-x: auto; margin-top: 28px; }
+table.data { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px; line-height: 1.4; }
+table.data th, table.data td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
+table.data thead th { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--soft); border-bottom: 2px solid var(--fg); }
+table.data tbody th { font-weight: 600; }
+table.data code { font-family: var(--mono); font-size: 14px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin: 32px 0 10px; padding-block: 20px; border-block: 1px solid var(--line); }
+.stats b { display: block; font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stats span { font-family: var(--mono); font-size: 13px; color: var(--soft); }
+.cap { font-size: 16px; color: var(--soft); margin: 0; }
+
+ol.steps { list-style: none; counter-reset: s; margin: 32px 0 0; padding: 0; display: grid; gap: 22px; max-width: 44em; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px; }
+ol.steps li::before { content: counter(s); font-family: var(--display); font-weight: 700; font-size: 44px; line-height: 1; color: var(--accent); }
+ol.steps p { margin: 0; }
+
+.fields { margin-top: 20px; }
+.copy { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 18px; }
+.copy pre { margin: 0; flex: 1 1 320px; min-width: 0; overflow-x: auto; background: var(--surface); border: 1px solid var(--line); padding: 10px 12px; font-family: var(--mono); font-size: 13px; user-select: all; }
+.copy button { font-family: var(--mono); font-size: 14px; background: var(--surface); color: var(--fg); border: 1px solid var(--fg); border-radius: 3px; padding: 8px 12px; cursor: pointer; }
+
+details { border-bottom: 1px solid var(--line); padding-block: 14px; max-width: 44em; }
+details:first-of-type { border-top: 1px solid var(--line); margin-top: 24px; }
+summary { cursor: pointer; font-weight: 600; }
+details p { margin: 10px 0 2px; }
+
+.join { background: var(--night); color: var(--on-night); border-top: 0 !important; }
+.join h2.t { color: var(--on-night); }
+.join p { max-width: 38em; }
+.join a:not(.btn) { color: var(--accent-fill); }
+.join .cta { margin-top: 22px; }
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 18px; }
+.mail span { font-family: var(--mono); font-size: 15px; overflow-wrap: anywhere; min-width: 0; user-select: all; }
+.mail button { font-family: var(--mono); font-size: 13px; background: transparent; color: var(--on-night); border: 1px solid var(--on-night-soft); border-radius: 3px; padding: 5px 10px; cursor: pointer; }
+.who { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--night-2); font-size: 17px; }
+
+footer { padding-block: 36px 48px; font-size: 15px; color: var(--soft); }
+footer ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+footer li { min-width: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-block: 44px 52px; }
+  .sheet { max-width: 400px; }
+  .two, .three { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  body { font-size: 17px; }
+  .links { display: none; }
+  .bar .wrap { justify-content: space-between; }
+  section { padding-block: 48px; }
+  .lede { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#es-top" id="brand">
+      <svg viewBox="0 0 64 28" aria-hidden="true"><path d="M29 3 L30.6 8 Q32 7.4 33.4 8 L35 3 L36 9.5 C38 11 40 11 43 8 C48 3 56 3 63 9 C58 10 56 13 55 17 C52 14 49 14 46 18 C43 15 40 16 38 20 C36 20 34 23 32 26 C30 23 28 20 26 20 C24 16 21 15 18 18 C15 14 12 14 9 17 C8 13 6 10 1 9 C8 3 16 3 21 8 C24 11 26 11 28 9.5 Z"/></svg>
+      BatCom Colombia
+    </a>
+    <nav class="links" id="nav-es" aria-label="Secciones">
+      <a href="#es-que">Data paper</a><a href="#es-por">Por qué</a><a href="#es-gana">Beneficios</a><a href="#es-datos">Qué datos</a><a href="#es-como">Cómo participar</a><a href="#es-faq">Preguntas</a>
+    </nav>
+    <nav class="links" id="nav-en" aria-label="Sections" hidden>
+      <a href="#en-que">Data paper</a><a href="#en-por">Why</a><a href="#en-gana">Benefits</a><a href="#en-datos">Which data</a><a href="#en-como">How to join</a><a href="#en-faq">Questions</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" id="btn-es" aria-pressed="true">ES</button>
+      <button type="button" id="btn-en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+
+  <div class="wrap" id="hero-es">
+    <div>
+      <p class="eyebrow" id="es-top">Convocatoria abierta · Murciélagos de Colombia</p>
+      <h1>Tus datos de murciélagos pueden ser parte de algo más grande <span>¡Hagamos comunidad!</span></h1>
+      <p class="lede">Muchos de nosotros tenemos el privilegio de ir a campo y registrar comunidades de murciélagos, pero después es difícil sacar tiempo para convertir esos datos en una publicación. BatCom Colombia quiere reunir datos de comunidades muestreadas en Colombia en una base abierta y publicarla como data paper en la revista <i>Ecology</i>, con quienes hicieron el trabajo como coautores. ¡Saquemos juntos esos datos del cajón!</p>
+      <div class="cta"><a class="btn" href="#es-unete">Quiero aportar datos</a><a class="btn ghost" href="#es-que">¿Qué es un data paper?</a></div>
+    </div>
+    <aside class="sheet" aria-label="Ejemplo de planilla de campo">
+      <h2>Planilla de ejemplo</h2>
+      <p>Sitio: bosque subandino · 1.850 m<br>4 redes de 12 × 2,5 m · 18:00–24:00</p>
+      <table>
+        <thead><tr><th>Especie</th><th>n</th></tr></thead>
+        <tbody>
+          <tr><td><i>Carollia brevicauda</i></td><td>23</td></tr>
+          <tr><td><i>Sturnira erythromos</i></td><td>17</td></tr>
+          <tr><td><i>Artibeus lituratus</i></td><td>9</td></tr>
+          <tr><td><i>Anoura caudifer</i></td><td>4</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Datos inventados para ilustrar. Una tabla así es lo que buscamos.</p>
+    </aside>
+  </div>
+
+  <div class="wrap" id="hero-en" hidden>
+    <div>
+      <p class="eyebrow" id="en-top">Open call · Bats of Colombia</p>
+      <h1>Your bat data can be part of something bigger <span>Let's build a community!</span></h1>
+      <p class="lede">Many of us have the privilege of going to the field and recording bat communities, but finding time afterwards to turn those data into a publication is hard. BatCom Colombia wants to bring together data from communities sampled in Colombia in an open database and publish it as a Data Paper in the journal <i>Ecology</i>, with the people who did the work as co-authors. Let's get that data out of the drawer together!</p>
+      <div class="cta"><a class="btn" href="#en-unete">I want to contribute data</a><a class="btn ghost" href="#en-que">What is a data paper?</a></div>
+    </div>
+    <aside class="sheet" aria-label="Example field sheet">
+      <h2>Example sheet</h2>
+      <p>Site: sub-Andean forest · 1,850 m<br>4 nets of 12 × 2.5 m · 18:00–24:00</p>
+      <table>
+        <thead><tr><th>Species</th><th>n</th></tr></thead>
+        <tbody>
+          <tr><td><i>Carollia brevicauda</i></td><td>23</td></tr>
+          <tr><td><i>Sturnira erythromos</i></td><td>17</td></tr>
+          <tr><td><i>Artibeus lituratus</i></td><td>9</td></tr>
+          <tr><td><i>Anoura caudifer</i></td><td>4</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Invented data, for illustration. A table like this is what we are looking for.</p>
+    </aside>
+  </div>
+</div>
+
+<main id="main-es" lang="es">
+  <section id="es-que"><div class="wrap">
+    <h2 class="t">Qué es un data paper</h2>
+    <div class="prose">
+      <p>Un data paper es un artículo revisado por pares que describe un conjunto de datos: qué se midió, dónde, cómo y para qué puede servir. Su propósito es que otras personas encuentren esos datos, los entiendan y los reutilicen. No presenta hipótesis ni resultados estadísticos.</p>
+      <p>Un ejemplo con murciélagos es <a href="https://doi.org/10.1002/ecy.2007">ATLANTIC BATS</a>, publicado en <i>Ecology</i> en 2017.</p>
+    </div>
+    <div class="scroll"><table class="data">
+      <thead><tr><th></th><th>Artículo de investigación</th><th>Data paper</th></tr></thead>
+      <tbody>
+        <tr><th>Pregunta central</th><td>¿Qué encontramos?</td><td>¿Qué datos existen y cómo se pueden usar?</td></tr>
+        <tr><th>Contenido</th><td>Hipótesis, análisis, discusión</td><td>Descripción de los datos, métodos, limitaciones y oportunidades</td></tr>
+        <tr><th>Los datos</th><td>Sustentan los resultados</td><td>Son el producto principal, en un repositorio público</td></tr>
+        <tr><th>Tu crédito</th><td>Se cita por sus resultados</td><td>Se cita cada vez que alguien usa los datos</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose" style="margin-top:28px">
+      <p><i>Ecology</i> publica Data Papers desde hace más de 20 años, siempre con revisión por pares completa. Desde septiembre de 2026 usa un formato nuevo: un manuscrito breve, de máximo 2.000 palabras, se publica en la revista, y los datos y metadatos quedan en un repositorio público. La revista valora que los datos se puedan reutilizar más que su tamaño.</p>
+    </div>
+  </div></section>
+
+  <section id="es-meta"><div class="wrap">
+    <h2 class="t">Qué queremos hacer</h2>
+    <div class="prose"><p>Queremos reunir listas de especies con abundancias de ensamblajes de murciélagos muestreados en Colombia, publicadas o no, con formato y taxonomía unificados.</p></div>
+    <div class="three">
+      <div><h3>Una base de datos abierta</h3><p>Sitios, especies, abundancias y esfuerzo de muestreo en un repositorio público con DOI, libre para cualquier persona.</p></div>
+      <div><h3>Un data paper en <i>Ecology</i></h3><p>Esa es nuestra meta de publicación. Como en toda revista, la aceptación depende de la revisión por pares.</p></div>
+      <div><h3>Una comunidad de trabajo</h3><p>Personas que estudian murciélagos en distintas regiones del país, conectadas alrededor de una misma base.</p></div>
+    </div>
+  </div></section>
+
+  <section id="es-por"><div class="wrap">
+    <h2 class="t">Por qué hace falta</h2>
+    <div class="prose">
+      <p>En Colombia se reportan más de 200 especies de murciélagos, una de las mayores riquezas del mundo. Lo que sabemos de sus comunidades está repartido en tesis, informes, revistas regionales y cuadernos de campo. Cada estudio responde por su sitio, y el conjunto no se puede ver.</p>
+    </div>
+    <div class="two">
+      <div>
+        <h3>Un registro dice dónde. Una comunidad dice mucho más.</h3>
+        <p>Las bases de presencias muestran dónde apareció una especie. Para comparar comunidades también hace falta saber cuántos individuos de cada especie se capturaron, con qué método y con cuánto esfuerzo. Esa información suele estar en la tesis o en la planilla original.</p>
+      </div>
+      <div>
+        <h3>Juntos vemos lo que falta</h3>
+        <p>Solo con los datos reunidos se puede ver qué regiones, altitudes, ecosistemas y épocas del año están sin muestrear. Ese mapa de vacíos ayuda a decidir a dónde ir después y a justificar nuevos proyectos.</p>
+      </div>
+    </div>
+    <p class="lab" style="margin-top:44px">Ya funcionó: <a href="https://doi.org/10.1002/ecy.2007">ATLANTIC BATS</a>, <i style="text-transform:none">Ecology</i> 2017</p>
+    <div class="stats">
+      <div><b>135</b><span>estudios</span></div>
+      <div><b>205</b><span>sitios</span></div>
+      <div><b>90.000+</b><span>capturas</span></div>
+      <div><b>98</b><span>especies</span></div>
+    </div>
+    <p class="cap">Investigadores de la Mata Atlántica reunieron así sus datos en una sola base. Hasta donde sabemos, Colombia todavía no tiene una síntesis equivalente.</p>
+    <div class="prose" style="margin-top:32px">
+      <h3>Preguntas que esta base podría ayudar a responder</h3>
+      <ul class="plain">
+        <li>¿Cómo cambian las comunidades con la elevación en las tres cordilleras?</li>
+        <li>¿Qué regiones y ecosistemas del país siguen sin muestrear?</li>
+        <li>¿Cómo responden los murciélagos a la pérdida de bosque, la urbanización y la luz artificial?</li>
+        <li>¿Cuánto esfuerzo hace falta para caracterizar una comunidad en cada región?</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section id="es-gana"><div class="wrap">
+    <h2 class="t">Qué ganas al participar</h2>
+    <div class="two">
+      <div>
+        <p class="lab">Para ti</p>
+        <ul class="plain">
+          <li><b>Coautoría en una revista internacional</b>, si el manuscrito es aceptado, indexada y citable como cualquier artículo.</li>
+          <li><b>Citas por tu trabajo de campo.</b> Quien reutilice la base citará el data paper.</li>
+          <li><b>Crédito con tu afiliación de entonces.</b> <i>Ecology</i> registra la afiliación que tenías al tomar los datos y tu dirección actual, y describe el rol de cada autor.</li>
+          <li><b>Datos a salvo.</b> Tu esfuerzo deja de depender de un disco duro.</li>
+          <li><b>Experiencia en datos abiertos</b>, una habilidad útil para posgrados y empleos.</li>
+          <li><b>Tu tesis puede seguir su camino.</b> Puedes publicar tu propio artículo y citar el data paper como fuente de los datos.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="lab">Para la comunidad de murciélagos</p>
+        <ul class="plain">
+          <li><b>Nos conectamos.</b> Sabemos quién trabaja dónde y abrimos colaboraciones entre regiones.</li>
+          <li><b>Vemos qué falta</b> y coordinamos muestreos en lugar de repetirlos.</li>
+          <li><b>Comparamos con una base común</b>, con taxonomía y esfuerzo reportados igual.</li>
+          <li><b>Aportamos evidencia</b> para la conservación y la gestión del territorio.</li>
+          <li><b>Hacemos visible la investigación colombiana</b>, incluida la de pregrado.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="es-datos"><div class="wrap">
+    <h2 class="t">Qué datos buscamos</h2>
+    <div class="prose">
+      <p>Sirven tesis de pregrado, maestría y doctorado, informes técnicos, proyectos de grupos de investigación y artículos ya publicados. Un solo sitio bien documentado también sirve, y los datos antiguos son especialmente valiosos.</p>
+      <p>Este es el mínimo que necesitamos por sitio de muestreo:</p>
+    </div>
+    <div class="scroll"><table class="data">
+      <thead><tr><th>Campo</th><th>Qué es</th><th>Necesidad</th></tr></thead>
+      <tbody>
+        <tr><th>Localidad</th><td>Departamento, municipio y coordenadas o localidad georreferenciable</td><td>Requerido</td></tr>
+        <tr><th>Fechas</th><td>Inicio y fin del muestreo</td><td>Requerido</td></tr>
+        <tr><th>Método</th><td>Redes de niebla, búsqueda en refugios u otro</td><td>Requerido</td></tr>
+        <tr><th>Esfuerzo</th><td>Número y tamaño de redes, horas y noches, o m²·h</td><td>Requerido</td></tr>
+        <tr><th>Especies y abundancia</th><td>Número de individuos por especie en cada sitio</td><td>Requerido</td></tr>
+        <tr><th>Fuente y responsable</th><td>Tesis, informe o artículo, y quién tomó los datos</td><td>Requerido</td></tr>
+        <tr><th>Hábitat y elevación</th><td>Tipo de cobertura y metros sobre el nivel del mar</td><td>Si lo tienes</td></tr>
+        <tr><th>Soporte de identificación</th><td>Quién identificó, ejemplares testigo y colección</td><td>Si lo tienes</td></tr>
+        <tr><th>Permiso</th><td>Permiso o marco bajo el cual se hizo la recolección</td><td>Si lo tienes</td></tr>
+        <tr><th>Datos por individuo</th><td>Edad, sexo, peso y longitud del antebrazo</td><td>Si lo tienes</td></tr>
+      </tbody>
+    </table></div>
+    <p class="prose" style="margin-top:20px">¿Tus datos ya están en una tabla? Estas columnas son un buen punto de partida:</p>
+    <div class="copy">
+      <pre id="cols-es">site_id,department,municipality,latitude,longitude,elevation_m,habitat,start_date,end_date,method,effort_value,effort_unit,species,abundance,identified_by,voucher_collection,source,permit</pre>
+      <button type="button" data-copy="cols-es" data-done="Copiado">Copiar columnas</button>
+    </div>
+    <p class="prose" style="margin-top:20px">Si tienes datos por individuo, usa una tabla aparte, con una fila por cada individuo:</p>
+    <div class="copy">
+      <pre id="cols2-es">site_id,date,species,age,sex,weight_g,forearm_mm</pre>
+      <button type="button" data-copy="cols2-es" data-done="Copiado">Copiar columnas</button>
+    </div>
+  </div></section>
+
+  <section id="es-como"><div class="wrap">
+    <h2 class="t">Cómo participar</h2>
+    <ol class="steps">
+      <li><div><h3>Cuéntanos qué tienes</h3><p>Llena <a href="https://forms.gle/yZkqwAqrehDdQdBR8">un formulario corto</a>. No necesitas enviar datos en este paso.</p></div></li>
+      <li><div><h3>Lo revisamos contigo</h3><p>Confirmamos que los datos encajan y resolvemos dudas de permisos, autoría y propiedad de los datos.</p></div></li>
+      <li><div><h3>Organizas y envías</h3><p>Pasas los datos a nuestra plantilla. Te acompañamos en el proceso.</p></div></li>
+      <li><div><h3>Unificamos la base</h3><p>Armonizamos la taxonomía, revisamos coordenadas y te consultamos cualquier duda.</p></div></li>
+      <li><div><h3>Revisas el manuscrito</h3><p>Lees el manuscrito, verificas tus datos y apruebas el envío.</p></div></li>
+      <li><div><h3>Sometemos a <i>Ecology</i></h3><p>Los datos y metadatos quedan en un repositorio público y el manuscrito pasa a revisión por pares.</p></div></li>
+    </ol>
+  </div></section>
+
+  <section id="es-reglas"><div class="wrap">
+    <h2 class="t">Reglas claras desde el inicio</h2>
+    <div class="prose"><ul class="plain">
+      <li><b>Autoría.</b> Quien aporte datos y participe en la revisión y aprobación del manuscrito será coautor.</li>
+      <li><b>Datos con varios responsables.</b> Si en los datos participaron estudiante, director o grupo, acordamos antes quién los aporta y quién firma.</li>
+      <li><b>Reconocimiento de cada fuente.</b> Cada registro queda ligado a su tesis, informe o artículo original.</li>
+      <li><b>Libertad para retirarte.</b> Puedes retirar tus datos en cualquier momento antes del envío a la revista.</li>
+    </ul></div>
+  </div></section>
+
+  <section id="es-faq"><div class="wrap">
+    <h2 class="t">Preguntas frecuentes</h2>
+    <details><summary>Mis datos son de una tesis de pregrado y son pocos. ¿Sirven?</summary><p>Sí. Lo importante es que estén bien documentados. Muchos sitios pequeños juntos permiten ver patrones que ningún estudio ve solo.</p></details>
+    <details><summary>Mis datos ya están publicados. ¿Puedo participar?</summary><p>Sí. <i>Ecology</i> acepta compilaciones de datos publicados cuando son un aporte significativo. Citaremos tu publicación original.</p></details>
+    <details><summary>¿Un data paper es lo mismo que GBIF?</summary><p>No, y se complementan. GBIF es una infraestructura abierta que reúne datos de biodiversidad, en su mayoría registros de qué especie se observó, dónde y cuándo. Un data paper es una publicación revisada por pares que describe un conjunto de datos: cómo se obtuvo, qué limitaciones tiene y para qué sirve. Un mismo conjunto de datos puede estar en GBIF y tener su data paper. GBIF es, además, uno de los repositorios que acepta <i>Ecology</i>, y el SiB Colombia publica datos del país en GBIF.</p></details>
+    <details><summary>¿No se pueden sacar las comunidades directamente de GBIF?</summary><p>Solo en parte. Si juntas los registros de un lugar obtienes una lista de especies, que puede mezclar métodos, años y esfuerzos muy distintos. Muchos de esos registros no dicen cuántos individuos había, cuánto se muestreó ni qué especies se buscaron sin encontrarlas. GBIF también admite datos de muestreo con esa información, pero hay que publicarlos así. BatCom reúne cada comunidad con sus abundancias y su esfuerzo, para poder compararlas.</p></details>
+    <details><summary>¿Podré publicar después un artículo con mis datos?</summary><p>Sí. Un data paper describe los datos y no presenta análisis ni resultados, así que tu pregunta de investigación sigue siendo tuya y en tu artículo puedes citar el data paper como fuente. Además, el mínimo que pedimos son especies, abundancias y esfuerzo. Edad, sexo, peso y antebrazo son opcionales, y dietas, datos reproductivos y demás información de tu tesis no hacen parte de la base. Ten en cuenta que los datos aportados serán públicos cuando el data paper sea aceptado, y otras personas podrán usarlos. Si tienes un artículo avanzado, cuéntanos para decidir juntos qué aportar y cuándo.</p></details>
+    <details><summary>¿Tengo que pagar algo?</summary><p>No. Aportar datos no tiene costo para ti.</p></details>
+    <details><summary>¿Los datos son míos para compartirlos?</summary><p>Depende. Si vienen de un proyecto de tu director, tu universidad, una entidad financiadora o una empresa, puede hacer falta su autorización. Lo revisamos contigo antes de incluirlos.</p></details>
+    <details><summary>¿Qué pasa con los permisos de recolección?</summary><p>Los datos deben venir de muestreos hechos con el permiso o marco aplicable. El Decreto 1376 de 2013 pide a los titulares de permisos reportar al SiB Colombia la información asociada a lo recolectado. Si tus datos ya están en el SiB o en GBIF, también nos sirven.</p></details>
+    <details><summary>¿Y si muestreé un refugio o una especie sensible?</summary><p>Avísanos. Revisamos juntos cómo reportar esa localidad para no exponer el sitio.</p></details>
+    <details><summary>Tengo identificaciones dudosas. ¿Qué hago?</summary><p>Repórtalas al nivel taxonómico del que estés seguro y cuéntanos la duda. Preferimos un género seguro a una especie incierta.</p></details>
+    <details><summary>Mis datos son acústicos o no tienen abundancias.</summary><p>Escríbenos igual. El núcleo de la base son capturas con abundancia, y evaluaremos cómo incluir otros tipos de datos.</p></details>
+  </div></section>
+
+  <section class="join" id="es-unete"><div class="wrap">
+    <h2 class="t">Saca esos datos del cajón</h2>
+    <p>Cuéntanos qué tienes. Con unos pocos datos del sitio y del muestreo podemos decirte si encaja. Si conoces a alguien con datos sin publicar, comparte esta página.</p>
+    <div class="cta"><a class="btn" href="https://forms.gle/yZkqwAqrehDdQdBR8">Llenar el formulario</a></div>
+    <p class="mail">¿Dudas? Escríbenos a <span id="mail-es">batcomeldatapaper@gmail.com</span><button type="button" data-copy="mail-es" data-done="Copiado">Copiar correo</button></p>
+    <p class="who"><b>Coordinan:</b> Natalya Zapata-Mesa y Sebastián Montoya-Bustamante, investigadores posdoctorales en el grupo de Biología de la Conservación de la Universidad de Regensburg y autores de BatFly, un data paper publicado en <i>Ecology</i> en 2024 que reunió 174 estudios y tres bases originales de 650 sitios del Neotrópico.</p>
+  </div></section>
+</main>
+
+<main id="main-en" lang="en" hidden>
+  <section id="en-que"><div class="wrap">
+    <h2 class="t">What a data paper is</h2>
+    <div class="prose">
+      <p>A data paper is a peer-reviewed article that describes a dataset: what was measured, where, how, and what it can be used for. Its purpose is to help other people find the data, understand it and reuse it. It does not present hypotheses or statistical results.</p>
+      <p>One example with bats is <a href="https://doi.org/10.1002/ecy.2007">ATLANTIC BATS</a>, published in <i>Ecology</i> in 2017.</p>
+    </div>
+    <div class="scroll"><table class="data">
+      <thead><tr><th></th><th>Research article</th><th>Data paper</th></tr></thead>
+      <tbody>
+        <tr><th>Central question</th><td>What did we find?</td><td>What data exist and how can they be used?</td></tr>
+        <tr><th>Content</th><td>Hypotheses, analyses, discussion</td><td>Data description, methods, limitations and opportunities</td></tr>
+        <tr><th>The data</th><td>Support the results</td><td>Are the main product, in a public repository</td></tr>
+        <tr><th>Your credit</th><td>Cited for its results</td><td>Cited each time someone uses the data</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prose" style="margin-top:28px">
+      <p><i>Ecology</i> has published Data Papers for over 20 years, always with full peer review. Since September 2026 it uses a new format: a short manuscript of up to 2,000 words appears in the journal, and the data and metadata live in a public repository. The journal values reusability over dataset size.</p>
+    </div>
+  </div></section>
+
+  <section id="en-meta"><div class="wrap">
+    <h2 class="t">What we want to do</h2>
+    <div class="prose"><p>We want to bring together species lists with abundances from bat assemblages sampled in Colombia, published or not, with a unified format and taxonomy.</p></div>
+    <div class="three">
+      <div><h3>An open database</h3><p>Sites, species, abundances and sampling effort in a public repository with a DOI, free for anyone to use.</p></div>
+      <div><h3>A Data Paper in <i>Ecology</i></h3><p>That is our publication goal. As with any journal, acceptance depends on peer review.</p></div>
+      <div><h3>A working community</h3><p>People who study bats across the country's regions, connected around one shared database.</p></div>
+    </div>
+  </div></section>
+
+  <section id="en-por"><div class="wrap">
+    <h2 class="t">Why it is needed</h2>
+    <div class="prose">
+      <p>More than 200 bat species are reported from Colombia, one of the highest richness values in the world. What we know about their communities is spread across theses, reports, regional journals and field notebooks. Each study speaks for its own site, and nobody can see the whole picture.</p>
+    </div>
+    <div class="two">
+      <div>
+        <h3>A record says where. A community says much more.</h3>
+        <p>Occurrence databases show where a species appeared. Comparing communities also requires knowing how many individuals of each species were caught, with which method and how much effort. That information usually sits in the thesis or the original field sheet.</p>
+      </div>
+      <div>
+        <h3>Together we can see what is missing</h3>
+        <p>Only with the data in one place can we see which regions, elevations, ecosystems and seasons remain unsampled. That map of gaps helps decide where to go next and helps justify new projects.</p>
+      </div>
+    </div>
+    <p class="lab" style="margin-top:44px">It has worked before: <a href="https://doi.org/10.1002/ecy.2007">ATLANTIC BATS</a>, <i style="text-transform:none">Ecology</i> 2017</p>
+    <div class="stats">
+      <div><b>135</b><span>studies</span></div>
+      <div><b>205</b><span>sites</span></div>
+      <div><b>90,000+</b><span>captures</span></div>
+      <div><b>98</b><span>species</span></div>
+    </div>
+    <p class="cap">Atlantic Forest researchers brought their data together this way. As far as we know, Colombia does not yet have an equivalent synthesis.</p>
+    <div class="prose" style="margin-top:32px">
+      <h3>Questions this database could help answer</h3>
+      <ul class="plain">
+        <li>How do communities change with elevation across the three Andean ranges?</li>
+        <li>Which regions and ecosystems remain unsampled?</li>
+        <li>How do bats respond to forest loss, urbanization and artificial light?</li>
+        <li>How much effort does it take to characterize a community in each region?</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section id="en-gana"><div class="wrap">
+    <h2 class="t">What you gain by joining</h2>
+    <div class="two">
+      <div>
+        <p class="lab">For you</p>
+        <ul class="plain">
+          <li><b>Co-authorship in an international journal</b>, if the manuscript is accepted, indexed and citable like any article.</li>
+          <li><b>Citations for your fieldwork.</b> Anyone reusing the database will cite the Data Paper.</li>
+          <li><b>Credit with your affiliation at the time.</b> <i>Ecology</i> records the affiliation you had when collecting the data, your current address, and each author's role.</li>
+          <li><b>Safe data.</b> Your effort no longer depends on one hard drive.</li>
+          <li><b>Open-data experience</b>, a useful skill for graduate programs and jobs.</li>
+          <li><b>Your thesis can still move forward.</b> You can publish your own article and cite the Data Paper as the data source.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="lab">For the bat research community</p>
+        <ul class="plain">
+          <li><b>We connect.</b> We learn who works where and open collaborations across regions.</li>
+          <li><b>We see what is missing</b> and coordinate surveys instead of repeating them.</li>
+          <li><b>We compare on a common basis</b>, with taxonomy and effort reported the same way.</li>
+          <li><b>We provide evidence</b> for conservation and land management.</li>
+          <li><b>We make Colombian research visible</b>, including undergraduate work.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="en-datos"><div class="wrap">
+    <h2 class="t">Which data we are looking for</h2>
+    <div class="prose">
+      <p>Undergraduate, master's and PhD theses, technical reports, research group projects and published articles all qualify. A single well-documented site is useful too, and older data are especially valuable.</p>
+      <p>This is the minimum we need for each sampling site:</p>
+    </div>
+    <div class="scroll"><table class="data">
+      <thead><tr><th>Field</th><th>What it is</th><th>Need</th></tr></thead>
+      <tbody>
+        <tr><th>Locality</th><td>Department, municipality and coordinates or a georeferenceable locality</td><td>Required</td></tr>
+        <tr><th>Dates</th><td>Start and end of sampling</td><td>Required</td></tr>
+        <tr><th>Method</th><td>Mist nets, roost searches or other</td><td>Required</td></tr>
+        <tr><th>Effort</th><td>Number and size of nets, hours and nights, or m²·h</td><td>Required</td></tr>
+        <tr><th>Species and abundance</th><td>Number of individuals per species at each site</td><td>Required</td></tr>
+        <tr><th>Source and data owner</th><td>Thesis, report or article, and who collected the data</td><td>Required</td></tr>
+        <tr><th>Habitat and elevation</th><td>Land cover type and meters above sea level</td><td>If available</td></tr>
+        <tr><th>Identification support</th><td>Who identified, voucher specimens and collection</td><td>If available</td></tr>
+        <tr><th>Permit</th><td>Permit or framework under which collection took place</td><td>If available</td></tr>
+        <tr><th>Individual-level data</th><td>Age, sex, weight and forearm length</td><td>If available</td></tr>
+      </tbody>
+    </table></div>
+    <p class="prose" style="margin-top:20px">Already have your data in a table? These columns are a good starting point:</p>
+    <div class="copy">
+      <pre id="cols-en">site_id,department,municipality,latitude,longitude,elevation_m,habitat,start_date,end_date,method,effort_value,effort_unit,species,abundance,identified_by,voucher_collection,source,permit</pre>
+      <button type="button" data-copy="cols-en" data-done="Copied">Copy columns</button>
+    </div>
+    <p class="prose" style="margin-top:20px">If you have individual-level data, use a separate table with one row per individual:</p>
+    <div class="copy">
+      <pre id="cols2-en">site_id,date,species,age,sex,weight_g,forearm_mm</pre>
+      <button type="button" data-copy="cols2-en" data-done="Copied">Copy columns</button>
+    </div>
+  </div></section>
+
+  <section id="en-como"><div class="wrap">
+    <h2 class="t">How to join</h2>
+    <ol class="steps">
+      <li><div><h3>Tell us what you have</h3><p>Fill in <a href="https://forms.gle/yZkqwAqrehDdQdBR8">a short form</a>. You don't need to send data at this stage.</p></div></li>
+      <li><div><h3>We review it with you</h3><p>We confirm the data fit and sort out questions about permits, authorship and data ownership.</p></div></li>
+      <li><div><h3>You organize and send</h3><p>You move the data into our template, and we help along the way.</p></div></li>
+      <li><div><h3>We unify the database</h3><p>We harmonize taxonomy, check coordinates and ask you about anything unclear.</p></div></li>
+      <li><div><h3>You review the manuscript</h3><p>You read the manuscript, check your data and approve submission.</p></div></li>
+      <li><div><h3>We submit to <i>Ecology</i></h3><p>The data and metadata go to a public repository and the manuscript goes to peer review.</p></div></li>
+    </ol>
+  </div></section>
+
+  <section id="en-reglas"><div class="wrap">
+    <h2 class="t">Clear rules from the start</h2>
+    <div class="prose"><ul class="plain">
+      <li><b>Authorship.</b> Anyone who contributes data and takes part in reviewing and approving the manuscript will be a co-author.</li>
+      <li><b>Data with several owners.</b> If a student, supervisor or group were involved, we agree up front who contributes and who signs.</li>
+      <li><b>Credit for each source.</b> Every record stays linked to its original thesis, report or article.</li>
+      <li><b>Freedom to withdraw.</b> You can withdraw your data at any time before submission to the journal.</li>
+    </ul></div>
+  </div></section>
+
+  <section id="en-faq"><div class="wrap">
+    <h2 class="t">Frequently asked questions</h2>
+    <details><summary>My data come from an undergraduate thesis and there are few. Are they useful?</summary><p>Yes. What matters is that they are well documented. Many small sites together reveal patterns that no single study can see.</p></details>
+    <details><summary>My data are already published. Can I join?</summary><p>Yes. <i>Ecology</i> accepts compilations of published data when they are a significant contribution. We will cite your original publication.</p></details>
+    <details><summary>Is a data paper the same as GBIF?</summary><p>No, and the two complement each other. GBIF is an open infrastructure that brings together biodiversity data, mostly records of which species was observed, where and when. A data paper is a peer-reviewed publication that describes a dataset: how it was obtained, what its limitations are and what it can be used for. The same dataset can be in GBIF and have its own data paper. GBIF is also one of the repositories <i>Ecology</i> accepts, and SiB Colombia publishes the country's data to GBIF.</p></details>
+    <details><summary>Can't communities simply be taken from GBIF?</summary><p>Only in part. Pooling the records from one place gives a species list that may mix very different methods, years and effort. Many of those records don't say how many individuals there were, how much sampling took place or which species were looked for and not found. GBIF also accepts sampling data with that information, but it has to be published that way. BatCom brings together each community with its abundances and effort, so communities can be compared.</p></details>
+    <details><summary>Can I still publish an article with my data afterwards?</summary><p>Yes. A data paper describes the data and presents no analyses or results, so your research question remains yours and your article can cite the Data Paper as its source. The minimum we ask for is species, abundances and effort. Age, sex, weight and forearm length are optional, and diets, reproductive data and everything else in your thesis stay out of the database. Keep in mind the contributed data become public when the Data Paper is accepted, and others will be able to use them. If you have an article well under way, tell us so we can decide together what to contribute and when.</p></details>
+    <details><summary>Do I have to pay anything?</summary><p>No. Contributing data costs you nothing.</p></details>
+    <details><summary>Are the data mine to share?</summary><p>It depends. If they come from a project led by your supervisor, university, a funder or a company, you may need their authorization. We review this with you before including them.</p></details>
+    <details><summary>What about collection permits?</summary><p>Data must come from sampling done under the applicable permit or framework. Colombian Decree 1376 of 2013 asks permit holders to report information associated with their collections to SiB Colombia. If your data are already in SiB or GBIF, we can still use them.</p></details>
+    <details><summary>What if I sampled a roost or a sensitive species?</summary><p>Let us know. We will work out together how to report that locality without exposing the site.</p></details>
+    <details><summary>Some of my identifications are doubtful. What should I do?</summary><p>Report them at the taxonomic level you are sure of and tell us about the doubt. We prefer a certain genus to an uncertain species.</p></details>
+    <details><summary>My data are acoustic or have no abundances.</summary><p>Write to us anyway. The core of the database is captures with abundance, and we will assess how to include other kinds of data.</p></details>
+  </div></section>
+
+  <section class="join" id="en-unete"><div class="wrap">
+    <h2 class="t">Get that data out of the drawer</h2>
+    <p>Tell us what you have. A few details about the site and the sampling are enough for us to say whether it fits. If you know someone with unpublished data, share this page.</p>
+    <div class="cta"><a class="btn" href="https://forms.gle/yZkqwAqrehDdQdBR8">Fill in the form (in Spanish)</a></div>
+    <p class="mail">Questions? Write to us at <span id="mail-en">batcomeldatapaper@gmail.com</span><button type="button" data-copy="mail-en" data-done="Copied">Copy email</button></p>
+    <p class="who"><b>Coordinators:</b> Natalya Zapata-Mesa and Sebastián Montoya-Bustamante, postdoctoral researchers in the Conservation Biology Group at the University of Regensburg and authors of BatFly, a Data Paper published in <i>Ecology</i> in 2024 that brought together 174 studies and three original datasets from 650 Neotropical sites.</p>
+  </div></section>
+</main>
+
+<footer><div class="wrap">
+  <b id="src-title">Fuentes</b>
+  <ul>
+    <li><a href="https://esa.org/publications/ecology-data-papers/">Ecology Data Papers, Ecological Society of America</a></li>
+    <li><a href="https://doi.org/10.1002/ecy.70434">Acevedo et al. 2026. Data Papers 2.0. Ecology 107(6), e70434</a></li>
+    <li><a href="https://www.gbif.org/data-papers">Data papers, GBIF</a></li>
+    <li><a href="https://techdocs.gbif.org/en/data-publishing/dataset-classes">Dataset classes, GBIF</a></li>
+    <li><a href="https://doi.org/10.1002/ecy.2007">Muylaert et al. 2017. ATLANTIC BATS. Ecology 98(12)</a></li>
+    <li><a href="https://doi.org/10.1002/ecy.4249">Zapata-Mesa et al. 2024. BatFly. Ecology 105, e4249</a></li>
+    <li><a href="https://doi.org/10.17151/bccm.2025.29.2.13">Boletín Científico Museo de Historia Natural U. de Caldas 29(2), 2025, citing Ramírez-Chaves et al. 2024</a></li>
+    <li><a href="https://www.minambiente.gov.co/wp-content/uploads/2013/06/decreto-1376-2013.pdf">Decreto 1376 de 2013, Minambiente</a></li>
+  </ul>
+</div></footer>
+
+<script>
+(function () {
+  var pairs = [['main-es', 'main-en'], ['hero-es', 'hero-en'], ['nav-es', 'nav-en']];
+  var btnEs = document.getElementById('btn-es');
+  var btnEn = document.getElementById('btn-en');
+
+  function setLang(l, save) {
+    pairs.forEach(function (p) {
+      document.getElementById(p[0]).hidden = l !== 'es';
+      document.getElementById(p[1]).hidden = l !== 'en';
+    });
+    btnEs.setAttribute('aria-pressed', String(l === 'es'));
+    btnEn.setAttribute('aria-pressed', String(l === 'en'));
+    document.documentElement.lang = l;
+    document.getElementById('brand').setAttribute('href', '#' + l + '-top');
+    document.getElementById('src-title').textContent = l === 'es' ? 'Fuentes' : 'Sources';
+    if (save) { try { localStorage.setItem('batcom-lang', l); } catch (e) {} }
+    drawNet();
+  }
+
+  function initial() {
+    var h = location.hash.replace('#', '');
+    if (h === 'en' || h.indexOf('en-') === 0) return 'en';
+    if (h === 'es' || h.indexOf('es-') === 0) return 'es';
+    try { var s = localStorage.getItem('batcom-lang'); if (s === 'en' || s === 'es') return s; } catch (e) {}
+    return 'es';
+  }
+
+  btnEs.addEventListener('click', function () { setLang('es', true); });
+  btnEn.addEventListener('click', function () { setLang('en', true); });
+  addEventListener('hashchange', function () {
+    var h = location.hash.replace('#', '');
+    if (h.indexOf('en-') === 0) setLang('en', false);
+    if (h.indexOf('es-') === 0) setLang('es', false);
+  });
+
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    var label = b.textContent;
+    b.addEventListener('click', function () {
+      var pre = document.getElementById(b.getAttribute('data-copy'));
+      function fallback() {
+        var r = document.createRange();
+        r.selectNodeContents(pre);
+        var s = getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+      }
+      if (!navigator.clipboard) { fallback(); return; }
+      navigator.clipboard.writeText(pre.textContent).then(function () {
+        b.textContent = b.getAttribute('data-done');
+        setTimeout(function () { b.textContent = label; }, 1800);
+      }).catch(fallback);
+    });
+  });
+
+  // Mist net: four shelves of diamond mesh, sagging between two poles.
+  var canvas = document.getElementById('net');
+  function drawNet() {
+    var r = canvas.getBoundingClientRect();
+    var W = r.width, H = r.height;
+    if (!W || !H) return;
+    var dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    var c = canvas.getContext('2d');
+    c.scale(dpr, dpr);
+    c.clearRect(0, 0, W, H);
+    var rgb = getComputedStyle(document.documentElement).getPropertyValue('--net').trim();
+    var shelves = 4, top = H * 0.05, step = (H * 0.92) / shelves, sag = H * 0.035;
+    function shelfY(i, x) { return top + i * step + sag * Math.sin(Math.PI * x / W); }
+    var mesh = 26;
+    c.lineWidth = 0.7;
+    c.strokeStyle = 'rgba(' + rgb + ',.13)';
+    for (var s = 0; s < shelves; s++) {
+      for (var a = -step; a < W + step; a += mesh) {
+        [1, -1].forEach(function (dir) {
+          c.beginPath();
+          for (var v = 0; v <= 1.001; v += 0.08) {
+            var x = a + dir * v * step;
+            var belly = Math.sin(Math.PI * v) * step * 0.16;
+            var y = shelfY(s, x) * (1 - v) + shelfY(s + 1, x) * v + belly;
+            if (v === 0) c.moveTo(x, y); else c.lineTo(x, y);
+          }
+          c.stroke();
+        });
+      }
+    }
+    c.lineWidth = 1.2;
+    c.strokeStyle = 'rgba(' + rgb + ',.34)';
+    for (var i = 0; i <= shelves; i++) {
+      c.beginPath();
+      for (var x = 0; x <= W; x += 12) { var y = shelfY(i, x); if (x === 0) c.moveTo(x, y); else c.lineTo(x, y); }
+      c.stroke();
+    }
+  }
+  addEventListener('resize', drawNet);
+  setLang(initial(), false);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawNet);
+})();
+</script>
+</body>
+</html>
