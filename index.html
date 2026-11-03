@@ -140,6 +140,7 @@ details p { margin: 10px 0 2px; }
 .mail span { font-family: var(--mono); font-size: 15px; overflow-wrap: anywhere; min-width: 0; user-select: all; }
 .mail button { font-family: var(--mono); font-size: 13px; background: transparent; color: var(--on-night); border: 1px solid var(--on-night-soft); border-radius: 3px; padding: 5px 10px; cursor: pointer; }
 .who { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--night-2); font-size: 17px; }
+.who.sci { margin-top: 12px; padding-top: 0; border-top: 0; }
 
 footer { padding-block: 36px 48px; font-size: 15px; color: var(--soft); }
 footer ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
@@ -336,7 +337,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
         <tr><th>Método</th><td>Redes de niebla, búsqueda en refugios u otro</td><td>Requerido</td></tr>
         <tr><th>Esfuerzo</th><td>Número y tamaño de redes, horas y noches, o m²·h</td><td>Requerido</td></tr>
         <tr><th>Especies y abundancia</th><td>Número de individuos por especie en cada sitio</td><td>Requerido</td></tr>
-        <tr><th>Fuente y responsable</th><td>Tesis, informe o artículo, y quién tomó los datos</td><td>Requerido</td></tr>
+        <tr><th>Fuente y responsable</th><td>Tesis, informe o artículo, si existe, y quién tomó los datos</td><td>Requerido</td></tr>
         <tr><th>Hábitat y elevación</th><td>Tipo de cobertura y metros sobre el nivel del mar</td><td>Si lo tienes</td></tr>
         <tr><th>Soporte de identificación</th><td>Quién identificó, ejemplares testigo y colección</td><td>Si lo tienes</td></tr>
         <tr><th>Permiso</th><td>Permiso o marco bajo el cual se hizo la recolección</td><td>Si lo tienes</td></tr>
@@ -372,7 +373,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <div class="prose"><ul class="plain">
       <li><b>Autoría.</b> Quien aporte datos y participe en la revisión y aprobación del manuscrito será coautor.</li>
       <li><b>Datos con varios responsables.</b> Si en los datos participaron estudiante, director o grupo, acordamos antes quién los aporta y quién firma.</li>
-      <li><b>Reconocimiento de cada fuente.</b> Cada registro queda ligado a su tesis, informe o artículo original.</li>
+      <li><b>Reconocimiento de cada fuente.</b> Cada registro queda ligado a su tesis, informe o artículo original o, si no está publicado, a sus autores o colectores.</li>
       <li><b>Libertad para retirarte.</b> Puedes retirar tus datos en cualquier momento antes del envío a la revista.</li>
     </ul></div>
   </div></section>
@@ -381,6 +382,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <h2 class="t">Preguntas frecuentes</h2>
     <details><summary>Mis datos son de una tesis de pregrado y son pocos. ¿Sirven?</summary><p>Sí. Lo importante es que estén bien documentados. Muchos sitios pequeños juntos permiten ver patrones que ningún estudio ve solo.</p></details>
     <details><summary>Mis datos ya están publicados. ¿Puedo participar?</summary><p>Sí. <i>Ecology</i> acepta compilaciones de datos publicados cuando son un aporte significativo. Citaremos tu publicación original.</p></details>
+    <details><summary>¿Puedo participar con datos que no están publicados o asociados a ningún proyecto?</summary><p>Sí. La fuente de los datos no publicados se referenciará con el nombre o los nombres de sus autores o colectores.</p></details>
     <details><summary>¿Un data paper es lo mismo que GBIF?</summary><p>No, y se complementan. GBIF es una infraestructura abierta que reúne datos de biodiversidad, en su mayoría registros de qué especie se observó, dónde y cuándo. Un data paper es una publicación revisada por pares que describe un conjunto de datos: cómo se obtuvo, qué limitaciones tiene y para qué sirve. Un mismo conjunto de datos puede estar en GBIF y tener su data paper. GBIF es, además, uno de los repositorios que acepta <i>Ecology</i>, y el SiB Colombia publica datos del país en GBIF.</p></details>
     <details><summary>¿No se pueden sacar las comunidades directamente de GBIF?</summary><p>Solo en parte. Si juntas los registros de un lugar obtienes una lista de especies, que puede mezclar métodos, años y esfuerzos muy distintos. Muchos de esos registros no dicen cuántos individuos había, cuánto se muestreó ni qué especies se buscaron sin encontrarlas. GBIF también admite datos de muestreo con esa información, pero hay que publicarlos así. BatCom reúne cada comunidad con sus abundancias y su esfuerzo, para poder compararlas.</p></details>
     <details><summary>¿Podré publicar después un artículo con mis datos?</summary><p>Sí. Un data paper describe los datos y no presenta análisis ni resultados, así que tu pregunta de investigación sigue siendo tuya y en tu artículo puedes citar el data paper como fuente. Además, el mínimo que pedimos son especies, abundancias y esfuerzo. Edad, sexo, peso y antebrazo son opcionales, y dietas, datos reproductivos y demás información de tu tesis no hacen parte de la base. Ten en cuenta que los datos aportados serán públicos cuando el data paper sea aceptado, y otras personas podrán usarlos. Si tienes un artículo avanzado, cuéntanos para decidir juntos qué aportar y cuándo.</p></details>
@@ -397,7 +399,8 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <p>Cuéntanos qué tienes. Con unos pocos datos del sitio y del muestreo podemos decirte si encaja. Si conoces a alguien con datos sin publicar, comparte esta página.</p>
     <div class="cta"><a class="btn" href="https://forms.gle/yZkqwAqrehDdQdBR8">Llenar el formulario</a></div>
     <p class="mail">¿Dudas? Escríbenos a <span id="mail-es">batcomeldatapaper@gmail.com</span><button type="button" data-copy="mail-es" data-done="Copiado">Copiar correo</button></p>
-    <p class="who"><b>Coordinan:</b> Natalya Zapata-Mesa y Sebastián Montoya-Bustamante, investigadores posdoctorales en el grupo de Biología de la Conservación de la Universidad de Regensburg y autores de BatFly, un data paper publicado en <i>Ecology</i> en 2024 que reunió 174 estudios y tres bases originales de 650 sitios del Neotrópico.</p>
+    <p class="who"><b>Coordinadores:</b> Natalya Zapata-Mesa y Sebastián Montoya-Bustamante (Universidad de Regensburg), Prof. Héctor E. Ramírez-Chaves (Universidad de Caldas), Prof. Oscar E. Murillo-García (Universidad del Valle) y María Alejandra Hurtado Materón (candidata a doctorado, Texas A&amp;M University).</p>
+    <p class="who sci">Natalya y Sebastián son autores de BatFly, un data paper publicado en <i>Ecology</i> en 2024 que reunió 174 estudios y tres bases originales de 650 sitios del Neotrópico.</p>
   </div></section>
 </main>
 
@@ -507,7 +510,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
         <tr><th>Method</th><td>Mist nets, roost searches or other</td><td>Required</td></tr>
         <tr><th>Effort</th><td>Number and size of nets, hours and nights, or m²·h</td><td>Required</td></tr>
         <tr><th>Species and abundance</th><td>Number of individuals per species at each site</td><td>Required</td></tr>
-        <tr><th>Source and data owner</th><td>Thesis, report or article, and who collected the data</td><td>Required</td></tr>
+        <tr><th>Source and data owner</th><td>Thesis, report or article, if any, and who collected the data</td><td>Required</td></tr>
         <tr><th>Habitat and elevation</th><td>Land cover type and meters above sea level</td><td>If available</td></tr>
         <tr><th>Identification support</th><td>Who identified, voucher specimens and collection</td><td>If available</td></tr>
         <tr><th>Permit</th><td>Permit or framework under which collection took place</td><td>If available</td></tr>
@@ -543,7 +546,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <div class="prose"><ul class="plain">
       <li><b>Authorship.</b> Anyone who contributes data and takes part in reviewing and approving the manuscript will be a co-author.</li>
       <li><b>Data with several owners.</b> If a student, supervisor or group were involved, we agree up front who contributes and who signs.</li>
-      <li><b>Credit for each source.</b> Every record stays linked to its original thesis, report or article.</li>
+      <li><b>Credit for each source.</b> Every record stays linked to its original thesis, report or article or, if unpublished, to its authors or collectors.</li>
       <li><b>Freedom to withdraw.</b> You can withdraw your data at any time before submission to the journal.</li>
     </ul></div>
   </div></section>
@@ -552,6 +555,7 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <h2 class="t">Frequently asked questions</h2>
     <details><summary>My data come from an undergraduate thesis and there are few. Are they useful?</summary><p>Yes. What matters is that they are well documented. Many small sites together reveal patterns that no single study can see.</p></details>
     <details><summary>My data are already published. Can I join?</summary><p>Yes. <i>Ecology</i> accepts compilations of published data when they are a significant contribution. We will cite your original publication.</p></details>
+    <details><summary>Can I join with data that are unpublished or not linked to any project?</summary><p>Yes. The source of unpublished data will be referenced with the name or names of their authors or collectors.</p></details>
     <details><summary>Is a data paper the same as GBIF?</summary><p>No, and the two complement each other. GBIF is an open infrastructure that brings together biodiversity data, mostly records of which species was observed, where and when. A data paper is a peer-reviewed publication that describes a dataset: how it was obtained, what its limitations are and what it can be used for. The same dataset can be in GBIF and have its own data paper. GBIF is also one of the repositories <i>Ecology</i> accepts, and SiB Colombia publishes the country's data to GBIF.</p></details>
     <details><summary>Can't communities simply be taken from GBIF?</summary><p>Only in part. Pooling the records from one place gives a species list that may mix very different methods, years and effort. Many of those records don't say how many individuals there were, how much sampling took place or which species were looked for and not found. GBIF also accepts sampling data with that information, but it has to be published that way. BatCom brings together each community with its abundances and effort, so communities can be compared.</p></details>
     <details><summary>Can I still publish an article with my data afterwards?</summary><p>Yes. A data paper describes the data and presents no analyses or results, so your research question remains yours and your article can cite the Data Paper as its source. The minimum we ask for is species, abundances and effort. Age, sex, weight and forearm length are optional, and diets, reproductive data and everything else in your thesis stay out of the database. Keep in mind the contributed data become public when the Data Paper is accepted, and others will be able to use them. If you have an article well under way, tell us so we can decide together what to contribute and when.</p></details>
@@ -568,7 +572,8 @@ footer li { min-width: 0; overflow-wrap: anywhere; }
     <p>Tell us what you have. A few details about the site and the sampling are enough for us to say whether it fits. If you know someone with unpublished data, share this page.</p>
     <div class="cta"><a class="btn" href="https://forms.gle/yZkqwAqrehDdQdBR8">Fill in the form (in Spanish)</a></div>
     <p class="mail">Questions? Write to us at <span id="mail-en">batcomeldatapaper@gmail.com</span><button type="button" data-copy="mail-en" data-done="Copied">Copy email</button></p>
-    <p class="who"><b>Coordinators:</b> Natalya Zapata-Mesa and Sebastián Montoya-Bustamante, postdoctoral researchers in the Conservation Biology Group at the University of Regensburg and authors of BatFly, a Data Paper published in <i>Ecology</i> in 2024 that brought together 174 studies and three original datasets from 650 Neotropical sites.</p>
+    <p class="who"><b>Coordinators:</b> Natalya Zapata-Mesa and Sebastián Montoya-Bustamante (University of Regensburg), Prof. Héctor E. Ramírez-Chaves (Universidad de Caldas), Prof. Oscar E. Murillo-García (Universidad del Valle) and María Alejandra Hurtado Materón (PhD candidate, Texas A&amp;M University).</p>
+    <p class="who sci">Natalya and Sebastián are authors of BatFly, a Data Paper published in <i>Ecology</i> in 2024 that brought together 174 studies and three original datasets from 650 Neotropical sites.</p>
   </div></section>
 </main>
 
